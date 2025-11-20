@@ -1,0 +1,7 @@
+{
+  "name": "Nova Assistant",
+  "description": "A capable, multimodal AI assistant powered by Google Gemini 2.5, featuring real-time streaming, web search grounding, and image analysis.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
