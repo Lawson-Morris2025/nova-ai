@@ -377,7 +377,7 @@ const App: React.FC = () => {
          </div>
          
          <div className="absolute bottom-8 text-[10px] text-gray-700 font-mono uppercase tracking-widest">
-            v1.0.0 • FlightFeed
+            v1.0.0 • Nova AI
          </div>
       </div>
     );
@@ -421,57 +421,72 @@ const App: React.FC = () => {
          <div className="fixed inset-0 z-50 lg:hidden">
             <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={() => setIsSidebarOpen(false)}></div>
             <div className="absolute inset-y-0 left-0 w-72 bg-gray-950 shadow-2xl animate-[slideInLeft_0.3s_ease-out]">
-              <Sidebar 
-                sessions={sessions}
-                currentSessionId={currentSessionId}
-                onSelectSession={loadSession}
-                onNewChat={() => { handleNewChat(); setIsSidebarOpen(false); }}
-                onDeleteSession={handleDeleteSession}
-                user={user}
-                onOpenSettings={() => { setIsSettingsOpen(true); setIsSidebarOpen(false); }}
-                onOpenTutorial={() => { setShowOnboarding(true); setIsSidebarOpen(false); }}
-              />
+               <Sidebar 
+                  sessions={sessions}
+                  currentSessionId={currentSessionId}
+                  onSelectSession={(id) => {
+                    const s = sessions.find(s => s.id === id);
+                    if (s) loadSession(s);
+                    setIsSidebarOpen(false);
+                  }}
+                  onNewChat={() => {
+                    handleNewChat();
+                    setIsSidebarOpen(false);
+                  }}
+                  onDeleteSession={handleDeleteSession}
+                  user={user}
+                  onOpenSettings={() => setIsSettingsOpen(true)}
+                  onOpenTutorial={() => setShowOnboarding(true)}
+               />
             </div>
          </div>
       )}
 
-      <div className="flex-1 flex flex-col h-full relative w-full">
-        <div className="lg:hidden flex items-center justify-between p-4 border-b border-gray-800 bg-gray-950/80 backdrop-blur z-10">
-            <button onClick={() => setIsSidebarOpen(true)} className="p-2 text-gray-400 hover:text-white transition-colors">
+      <div className="flex-1 flex flex-col relative w-full min-w-0">
+         {/* Mobile Header */}
+         <div className="lg:hidden flex items-center justify-between p-4 border-b border-gray-800 bg-gray-950">
+            <button onClick={() => setIsSidebarOpen(true)} className="text-gray-400 hover:text-white">
               <Menu size={24} />
             </button>
-            <span className="font-bold text-lg">Nova AI</span>
-            <button onClick={() => handleNewChat()} className="p-2 bg-gray-800 rounded-full hover:bg-gray-700 transition-colors">
-                <Plus size={18} />
+            <span className="font-bold text-white">Nova AI</span>
+            <button onClick={() => handleNewChat()} className="text-primary-500 hover:text-primary-400">
+              <Plus size={24} />
             </button>
-        </div>
+         </div>
 
-        <div className="flex-1 overflow-y-auto p-4 scroll-smooth">
-            <div className="max-w-3xl mx-auto pt-4 pb-32">
-                {messages.map((msg, index) => (
-                    <MessageBubble 
-                      key={msg.id} 
-                      message={msg} 
-                      isLast={index === messages.length - 1}
-                      onRegenerate={handleRegenerate}
-                    />
-                ))}
-                <div ref={messagesEndRef} />
-            </div>
-        </div>
+         {/* Chat Area */}
+         <div className="flex-1 overflow-y-auto p-4 pb-32">
+            {messages.length === 0 && sessions.length === 0 && (
+               <div className="h-full flex flex-col items-center justify-center text-gray-500 space-y-4 opacity-50">
+                  <Sparkles size={48} />
+                  <p>Start a new conversation</p>
+               </div>
+            )}
+            
+            {messages.map((msg, index) => (
+              <MessageBubble 
+                key={msg.id} 
+                message={msg} 
+                isLast={index === messages.length - 1}
+                onRegenerate={handleRegenerate}
+              />
+            ))}
+            <div ref={messagesEndRef} />
+         </div>
 
-        <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-gray-950 via-gray-950 to-transparent pt-10 pb-2 px-2 z-20">
+         {/* Input Area */}
+         <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-gray-950 via-gray-950 to-transparent p-4 pt-20">
             <InputArea 
-                onSend={handleSend} 
-                isLoading={isLoading}
-                useWebSearch={useWebSearch}
-                onToggleWebSearch={() => setUseWebSearch(!useWebSearch)}
-                model={model}
-                onModelChange={setModel}
-                persona={persona}
-                onPersonaChange={setPersona}
+               onSend={handleSend} 
+               isLoading={isLoading}
+               useWebSearch={useWebSearch}
+               onToggleWebSearch={() => setUseWebSearch(!useWebSearch)}
+               model={model}
+               onModelChange={setModel}
+               persona={persona}
+               onPersonaChange={setPersona}
             />
-        </div>
+         </div>
       </div>
     </div>
   );

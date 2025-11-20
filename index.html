@@ -7,8 +7,8 @@
     <title>Nova Ai</title>
     <meta name="description" content="A capable, multimodal AI assistant powered by Google Gemini 2.5, featuring real-time streaming, web search grounding, and image analysis." />
     
-    <!-- PWA Manifest & Icons -->
-    <link rel="manifest" href="/manifest.json" />
+    <!-- PWA Manifest & Icons - Changed to relative path ./ -->
+    <link rel="manifest" href="./manifest.json" />
     <link rel="apple-touch-icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Google_Gemini_logo.svg/192px-Google_Gemini_logo.svg.png" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="theme-color" content="#0b0f19" />
@@ -90,10 +90,13 @@
 </head>
   <body class="bg-gray-950 text-gray-100 overflow-hidden">
     <div id="root"></div>
+    <!-- Main Entry Script - Critical for loading the app -->
+    <script type="module" src="./index.tsx"></script>
     <script>
       if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-          navigator.serviceWorker.register('/sw.js')
+          // Use relative path for GitHub Pages compatibility
+          navigator.serviceWorker.register('./sw.js')
             .then(registration => {
               console.log('SW registered: ', registration);
             })

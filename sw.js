@@ -1,8 +1,9 @@
 const CACHE_NAME = 'nova-ai-v1';
+// Use relative paths for GitHub Pages compatibility
 const urlsToCache = [
-  '/',
-  '/index.html',
-  '/manifest.json'
+  './',
+  './index.html',
+  './manifest.json'
 ];
 
 self.addEventListener('install', (event) => {
