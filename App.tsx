@@ -1,13 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { MessageBubble } from './components/MessageBubble';
-import { InputArea } from './components/InputArea';
-import { LoginScreen } from './components/LoginScreen';
-import { Sidebar } from './components/Sidebar';
-import { SettingsModal } from './components/SettingsModal';
-import { OnboardingModal } from './components/OnboardingModal';
+import { MessageBubble } from './MessageBubble';
+import { InputArea } from './InputArea';
+import { LoginScreen } from './LoginScreen';
+import { Sidebar } from './Sidebar';
+import { SettingsModal } from './SettingsModal';
+import { OnboardingModal } from './OnboardingModal';
 import { Message, Role, Attachment, AiModel, Persona, User, ChatSession } from './types';
-import { streamMessage, generateChatTitle } from './services/geminiService';
-import { storageService } from './services/storageService';
+import { streamMessage, generateChatTitle } from './geminiService';
+import { storageService } from './storageService';
 import { Plus, Menu, Loader2, Sparkles } from 'lucide-react';
 
 const App: React.FC = () => {
